@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using RestSharp;
 using System.Configuration;
+using System.Collections.Generic;
 
 namespace ZonalApp.classes
 {
@@ -10,6 +11,8 @@ namespace ZonalApp.classes
         string siteId;
         string salesAreaId;
         string servicesId;
+
+        List<int> menuId = new List<int>();
 
         public GetMenus(string siteId, string salesAreaId, string servicesId)
         {
@@ -47,9 +50,24 @@ namespace ZonalApp.classes
             //generate the response
             IRestResponse response = client.Execute(request);
 
-            dynamic getMenusData = JsonConvert.DeserializeObject<dynamic>(response.Content);
+            dynamic menusData = JsonConvert.DeserializeObject<dynamic>(response.Content);
+          //  Console.WriteLine(menusData);
 
-            Console.WriteLine(getMenusData);
+            int nosOfMenus = menusData["count"];
+
+            Console.WriteLine("Number of menus = " + nosOfMenus);
+
+            for (int i=0; i < nosOfMenus; i++ )
+            {
+                //add the menu Id to the list
+              
+                Console.WriteLine("Menu Id: " + i + " " + menusData["menus"][i].id.ToString());
+                
+
+            }            
+
+            //get the menus 
+
         }
     }
     
